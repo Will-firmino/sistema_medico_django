@@ -1,3 +1,7 @@
 from django.contrib import admin
+from intranet import models
 
-# Register your models here.
+@admin.register(models.Medico) # Registrando a classe Médico do Portal do python
+class MedicoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nome', 'email', 'crm', 'especialidade',)
+
