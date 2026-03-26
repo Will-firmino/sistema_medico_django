@@ -12,3 +12,13 @@ class Medico(models.Model):
     # Métodos = ações = funções
     def __str__(self):
         return f'{self.nome}'
+
+# Criar um modelo do paciente, com nome, email, telefone, cpf
+class Paciente(models.Model):
+    nome = models.CharField(max_length=50)
+    email = models.EmailField()
+    telefone = models.CharField(max_length=15)
+    cpf = models.CharField(max_length=11)
+
+    def __str__(self):
+        return f'{self.nome}'
