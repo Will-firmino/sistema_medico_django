@@ -16,6 +16,7 @@
 ## Tipos de dados do framework ORM
 `CharField()` -> é um campo de texto.
     - max_length -> é o tamanho máximo do campo.
+    - choices= -> é a possibilidade definida para aquele campo.
 `EmailField()` -> é um campo de email, ele valida se o email é valido (@,.).
 `DateTimeField()` -> é um campo de data e hora.
     - default -> é o valor padrão.
@@ -29,3 +30,6 @@
     - %Y é o ano
     - %m é o mês
     - %d é o dia
+`ForeignKey()` -> é um campo de chave estrangeira.
+    - on_delete=models.CASCADE -> significa que quando um paciente/medico for deletado, a consulta também será deletada.
+    - verbose_name -> é o nome do campo que será exibido no admin.
