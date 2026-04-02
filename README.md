@@ -12,4 +12,20 @@
 
 ## OBSERVAÇÕES
 1. Em python, podemos ter mais de uma classe por arquivo.
-2. 
+
+## Tipos de dados do framework ORM
+`CharField()` -> é um campo de texto.
+    - max_length -> é o tamanho máximo do campo.
+`EmailField()` -> é um campo de email, ele valida se o email é valido (@,.).
+`DateTimeField()` -> é um campo de data e hora.
+    - default -> é o valor padrão.
+    - timezone.now -> é a data e hora atual(local).
+`BooleanField()` -> é um campo booleano.
+    - default=True -> é por padrão verdadeiro. 
+`TextField()` -> é um campo de texto.
+    - blank=True-> permite que o campo seja vazio.
+`ImageField()` -> é um campo de imagem.
+    - upload_to -> é o caminho onde a imagem será salva.
+    - %Y é o ano
+    - %m é o mês
+    - %d é o dia
