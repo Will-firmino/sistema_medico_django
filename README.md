@@ -9,6 +9,7 @@
 8. Alterando a senha, caso você esqueça -> python manage.py changepassword nome_do_usuario
 9. Gerando o pacote de migração -> python manage.py makemigrations
 10. Rodando as alterações do pacote de migração ->python manage.py migrate
+11. Comando para manipular imagens no django -> python -m pip install Pillow
 
 ## OBSERVAÇÕES
 1. Em python, podemos ter mais de uma classe por arquivo.
