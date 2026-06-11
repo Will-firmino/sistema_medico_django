@@ -37,3 +37,6 @@
 
 # FLUXO HTTP
 path() -> é um método do django que permite realizar a inserção de uma url. O primeiro argumento é a url, o segundo é a view que será chamada quando essa url for acessada. Opcional, pode ter um terceiro argumento com o nome da url.
+
+
+# TESTANDO
