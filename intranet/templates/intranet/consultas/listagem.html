@@ -1,0 +1,19 @@
+{% for consulta in consultas %}
+<tr>
+  <!-- consulta.paciente_id é o OBJETO Paciente (ForeignKey), não o ID -->
+  <td>{{ consulta.paciente_id.nome }} {{ consulta.paciente_id.sobrenome }}</td>
+  <td>{{ consulta.medico_id.nome }}   {{ consulta.medico_id.sobrenome }}</td>
+
+  <!-- |date: filtro Django que formata datetime -->
+  <td>{{ consulta.horario|date:"d/m/Y H:i" }}</td>
+  <!-- ex: 20/05/2026 14:30 -->
+
+  <!-- get_status_display(): retorna "Agendada" em vez de "A" -->
+  <td>{{ consulta.get_status_display }}</td>
+
+  <td>
+    <a href="{% url 'intranet:consulta-update' consulta.pk %}">editar</a>
+    <a href="{% url 'intranet:consulta-delete' consulta.pk %}">excluir</a>
+  </td>
+</tr>
+{% endfor %}

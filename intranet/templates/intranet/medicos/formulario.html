@@ -1,0 +1,40 @@
+{% extends 'intranet/base_logado.html' %}
+{% load static %}
+
+{% block title %}{{ titulo }}{% endblock %}
+<!-- {{ titulo }} vem do get_context_data da View: "Cadastro de Médico" ou "Editar Médico" -->
+
+{% block content %}
+<main class="container">
+  <section class="card form-card">
+    <h2 class="title">{{ titulo }}</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Renderizamos campo por campo para controlar o layout com as classes CSS -->
+
+      <div class="form-group">
+        <label for="id_nome">Nome:</label>
+        {{ form.nome }}
+        <!-- {{ form.nome }} renderiza o <input> do campo "nome" do MedicoForm -->
+        {% if form.nome.errors %}<p style="color:#c00;">{{ form.nome.errors }}</p>{% endif %}
+        <!-- form.nome.errors: lista de erros de validação deste campo específico -->
+      </div>
+
+      <!-- ... campos sobrenome, email, telefone, crm seguem o mesmo padrão ... -->
+
+      <div class="form-group">
+        <label for="id_especialidade">Especialidade:</label>
+        {{ form.especialidade }}
+        <!-- Renderiza o <select> com as opções de ESPECIALIDADES definidas no forms.py -->
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'intranet:medico-list' %}" class="btn btn-secondary">Voltar</a>
+      </div>
+    </form>
+  </section>
+</main>
+{% endblock %}

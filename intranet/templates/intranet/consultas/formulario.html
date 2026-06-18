@@ -1,0 +1,86 @@
+{% extends 'intranet/base_logado.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container">
+  <section class="card form-card">
+    <h2 class="title">{{ titulo }}</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- 1. Especialidade: dropdown não salvo, apenas filtra os médicos via JS -->
+      <div class="form-group">
+        <label>Especialidade:</label>
+        {{ form.especialidade }}  <!-- renderiza o <select id="id_especialidade"> -->
+      </div>
+
+      <!-- 2. Médico: inicialmente vazio, preenchido pelo JavaScript -->
+      <div class="form-group">
+        <label>Médico:</label>
+        {{ form.medico_id }}  <!-- <select id="id_medico_id"> -->
+      </div>
+
+      <!-- 3. CPF: o servidor usa este valor para buscar o Paciente -->
+      <div class="form-group">
+        <label>CPF do Paciente:</label>
+        {{ form.cpf_paciente }}
+        {% if form.cpf_paciente.errors %}
+          <p style="color:#c00;">{{ form.cpf_paciente.errors }}</p>
+        {% endif %}
+      </div>
+
+      <!-- 4. Data e hora -->
+      <div class="form-group">
+        <label>Data e Hora:</label>
+        {{ form.horario }}  <!-- <input type="datetime-local"> -->
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{% url 'intranet:consulta-list' %}" class="btn btn-secondary">Voltar</a>
+      </div>
+    </form>
+  </section>
+</main>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // medicos_json: variável Python injetada no template pela view (ConsultaCreateView)
+  // |escapejs: filtro Django que escapa aspas e caracteres especiais para uso em JS
+  const todosOsMedicos = JSON.parse('{{ medicos_json|escapejs }}');
+  // Resultado: array de objetos [{id:1, nome:"João", sobrenome:"Silva", especialidade:"ORTOPEDIA"}, ...]
+
+  function filtrarMedicos() {
+    const especialidade = document.getElementById('id_especialidade').value;
+    // Captura o valor selecionado no dropdown de especialidades
+
+    const selectMedico = document.getElementById('id_medico_id');
+    const valorAtual   = selectMedico.value;  // guarda o médico já selecionado (edição)
+
+    selectMedico.innerHTML = '<option value="">---------</option>';
+    // Limpa o dropdown de médicos antes de popular
+
+    // Filtra o array: se especialidade selecionada, mostra apenas médicos dela
+    const lista = especialidade
+      ? todosOsMedicos.filter(m => m.especialidade === especialidade)
+      : todosOsMedicos;  // se nenhuma especialidade, mostra todos
+
+    lista.forEach(m => {
+      const opt       = document.createElement('option');
+      opt.value       = m.id;
+      opt.textContent = m.nome + ' ' + m.sobrenome;
+      if (String(m.id) === String(valorAtual)) opt.selected = true;
+      // Re-seleciona o médico anterior se estiver editando
+      selectMedico.appendChild(opt);
+    });
+  }
+
+  // Filtra ao trocar a especialidade
+  document.getElementById('id_especialidade').addEventListener('change', filtrarMedicos);
+
+  // Filtra ao carregar a página (importante para pré-preencher no modo edição)
+  window.addEventListener('DOMContentLoaded', filtrarMedicos);
+</script>
+{% endblock %}
